@@ -4,6 +4,7 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: "Build ${{github.actor}}"
     outputs:
       build_id: ${{ steps.build_step.outputs.build_id }}
     steps:
