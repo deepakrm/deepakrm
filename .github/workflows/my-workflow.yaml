@@ -38,6 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     name: "Deploy to STG"
     needs: [ deploy-dev ]
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.deployToStage == 'true'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
@@ -49,6 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     name: "Deploy to PROD"
     needs: [ deploy-stg ]
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.deployToProd == 'true'
     environment: "PROD"
     steps:
       - uses: actions/checkout@v4
