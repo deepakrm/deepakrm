@@ -1,4 +1,4 @@
-name: publish
+name: Build & Deployment Pipeline
 run-name: Build & Deploy Application ${{ github.repository }}
 env:
   application_name: "my-application"
