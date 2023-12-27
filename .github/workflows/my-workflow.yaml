@@ -38,7 +38,8 @@ jobs:
       - run: bats -v
   deploy-prod:
     runs-on: ubuntu-latest
-    name: "deploy-stg"
+    name: "Deploy to PROD"
+    needs: [ deploy-stg ]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
