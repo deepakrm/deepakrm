@@ -7,11 +7,11 @@ on:
     inputs:
       deployToStage:
         description: 'Manually trigger deployment to Stage'
-        required: false
+        required: true
         type: boolean
       deployToProd:
         description: 'Manually trigger deployment to Production'
-        required: false
+        required: true
         type: boolean
 
 jobs:
