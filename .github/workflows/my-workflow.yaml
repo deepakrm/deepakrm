@@ -6,8 +6,12 @@ on:
       - master
   workflow_dispatch:
     inputs:
-      deployStage:
-        description: 'Trigger Deploy to Stage'
+      deployToStage:
+        description: 'Manually trigger deployment to Stage'
+        required: true
+        type: boolean
+      deployToProd:
+        description: 'Manually trigger deployment to Production'
         required: true
         type: boolean
 jobs:
