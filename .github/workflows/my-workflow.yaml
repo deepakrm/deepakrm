@@ -1,5 +1,5 @@
 name: publish
-run-name: Deploy Application ${{env.application_name}}
+run-name: Build & Deploy Application ${{github.GITHUB_REPOSITORY}}
 env:
   application_name: "my-application"
 on:
