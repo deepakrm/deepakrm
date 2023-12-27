@@ -40,6 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     name: "Deploy to PROD"
     needs: [ deploy-stg ]
+    environment: "PROD"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
