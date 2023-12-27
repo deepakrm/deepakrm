@@ -1,29 +1,28 @@
-name: Build and deploy
-on: push
-
+name: learn-github-actions
+run-name: ${{ github.actor }} is learning GitHub Actions
+on: [push]
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    name: "Build /n ${{github.actor}}"
-    outputs:
-      build_id: ${{ steps.build_step.outputs.build_id }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Build
-        id: build_step
-        run: |
-          ./build
-          echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
-  deploy:
-    needs: build
+  check-bats-version:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: ./deploy --build ${{ needs.build.outputs.build_id }}
-  debug:
-    needs: [build, deploy]
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm install -g bats
+        env:
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+      - run: bats -v
+  second-job:
     runs-on: ubuntu-latest
-    if: ${{ failure() }}
+    name: "Second Job"
+    needs: [check-bats-version]
     steps:
       - uses: actions/checkout@v4
-      - run: ./debug
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm install -g bats
+      - run: bats -v
+
