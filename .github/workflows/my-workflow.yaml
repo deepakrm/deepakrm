@@ -2,7 +2,7 @@ name: learn-github-actions
 run-name: ${{ github.actor }} is learning GitHub Actions
 on: [push]
 jobs:
-  check-bats-version:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,10 +14,32 @@ jobs:
           POSTGRES_HOST: postgres
           POSTGRES_PORT: 5432
       - run: bats -v
-  second-job:
+  deploy-dev:
     runs-on: ubuntu-latest
-    name: "Second Job"
-    needs: [check-bats-version]
+    name: "Deploy to DEV"
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm install -g bats
+      - run: bats -v
+  deploy-stg:
+    runs-on: ubuntu-latest
+    name: "deploy-dev"
+    needs: [ check-bats-version ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm install -g bats
+      - run: bats -v
+  deploy-prod:
+    runs-on: ubuntu-latest
+    name: "deploy-stg"
+    needs: [ check-bats-version ]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
