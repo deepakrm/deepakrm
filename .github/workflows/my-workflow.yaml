@@ -1,5 +1,7 @@
-name: learn-github-actions
-run-name: ${{ github.actor }} is learning GitHub Actions
+name: publish
+run-name: Deploy Application ${{env.application_name}}
+env:
+  application_name: "my-application"
 on:
   push:
     branches:
