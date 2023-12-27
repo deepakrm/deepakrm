@@ -28,7 +28,7 @@ jobs:
   deploy-stg:
     runs-on: ubuntu-latest
     name: "Deploy to STG"
-    needs: [ check-bats-version ]
+    needs: [ deploy-dev ]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
