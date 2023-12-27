@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: "Build"
+    name: "Create Docker Image"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
