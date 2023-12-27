@@ -6,12 +6,6 @@ on:
   push:
     branches:
       - master
-  workflow_dispatch:
-    inputs:
-      deployStage:
-        description: 'Trigger Deploy to Stage'
-        required: true
-        type: boolean
 jobs:
   build:
     runs-on: ubuntu-latest
