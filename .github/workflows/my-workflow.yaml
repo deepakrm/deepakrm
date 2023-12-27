@@ -38,6 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     name: "Deploy to STG"
     needs: [ deploy-dev ]
+    environment: "STAGE"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
