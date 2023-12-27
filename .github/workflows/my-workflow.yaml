@@ -1,50 +1,60 @@
-name: CI/CD Pipeline
-
+name: learn-github-actions
+run-name: ${{ github.actor }} is learning GitHub Actions
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
   workflow_dispatch:
     inputs:
-      deployToStage:
-        description: 'Manually trigger deployment to Stage'
+      deployStage:
+        description: 'Trigger Deploy to Stage'
         required: true
         type: boolean
-      deployToProd:
-        description: 'Manually trigger deployment to Production'
-        required: true
-        type: boolean
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-      - name: Build
-        run: echo "Building the project..."
-
-  deploy_dev:
-    needs: build
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm install -g bats
+        env:
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+      - run: bats -v
+  deploy-dev:
     runs-on: ubuntu-latest
+    name: "Deploy to DEV"
+    needs: [build]
     steps:
-      - name: Deploy to Dev
-        run: echo "Deploying to Dev environment..."
-
-  deploy_stage:
-    needs: deploy_dev
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.deployToStage == 'true'
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm install -g bats
+      - run: bats -v
+  deploy-stg:
     runs-on: ubuntu-latest
+    name: "Deploy to STG"
+    needs: [ deploy-dev ]
     steps:
-      - name: Deploy to Stage
-        run: echo "Deploying to Stage environment..."
-
-  deploy_prod:
-    needs: deploy_stage
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.deployToProd == 'true'
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm install -g bats
+      - run: bats -v
+  deploy-prod:
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: https://production.example.com
+    name: "Deploy to PROD"
+    needs: [ deploy-stg ]
+    environment: "PROD"
     steps:
-      - name: Deploy to Production
-        run: echo "Deploying to Production environment..."
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm install -g bats
+      - run: bats -v
+
