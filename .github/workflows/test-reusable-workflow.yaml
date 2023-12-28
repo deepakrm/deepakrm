@@ -10,7 +10,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    uses: deepakrm/shared-scripts/.github/workflows/workflow-B.yaml@main
+    uses: deepakrm/shared-scripts/.github/workflows/workflow-B.yaml@master
     with:
       config-path: .github/labeler.yml
     secrets:
