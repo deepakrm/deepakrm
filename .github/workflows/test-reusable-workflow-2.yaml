@@ -11,8 +11,8 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    uses: deepakrm/shared-scripts/.github/workflows/workflow-B.yml@main
+    uses: deepakrm/shared-scripts/.github/workflows/shared/build.yaml@main
     with:
-      config-path: .github/labeler.yml
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
+      input-1: "input-1-value"
+#    secrets:
+#      token: ${{ secrets.GITHUB_TOKEN }}
